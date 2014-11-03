@@ -1,0 +1,30 @@
+---
+title: "Visualizações, Problema 1"
+author: "Matheus Sampaio"
+date: "03-11-2014"
+output: html_document
+---
+
+## Perguntas
+
+1. As músicas antigas são mais familiares?
+
+![](1.JPG)
+
+´´´
+
+´´´
+
+
+2. Quais são as palavras mais comuns nos títulos das músicas?
+
+![](2.JPG)
+
+3. Como o ano influencia na popularidade de um género?
+
+![](3.JPG)
+
+4. As músicas estão ficando mais curtas?
+
+5. Existe género que está morrendo, e o género que mais domina?
+
