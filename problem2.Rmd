@@ -3,7 +3,17 @@ title: "Visualizações, Problema 1"
 author: "Matheus Sampaio"
 date: "03-11-2014"
 output: html_document
+runtime: shiny 
 ---
+
+
+```{r, echo=FALSE, message=FALSE}
+# Load data & libraris
+library(dplyr)
+library(ggplot2)
+
+songs <- read.csv("~/git/analise-dados-2-p2/csv/songs.csv")
+```
 
 ## Perguntas
 
@@ -11,9 +21,31 @@ output: html_document
 
 ![](img/1.JPG)
 
-´´´
+```{r, echo=FALSE}
 
-´´´
+inputPanel(
+  selectInput("value", 
+              label = "Variavel:", 
+              choices = c("artist_familiarity", "artist_hotttnesss", "duration"),
+              selected = "artist_familiarity"),
+  
+  sliderInput("min_year", label = "Ano mínimo:", min = 1960, max = 2005, value = 2000, step = 1)
+)
+
+renderPlot({ 
+  data <- select(songs, artist_familiarity, artist_hotttnesss, duration, year);
+  data.with_year <- arrange(filter(data, year > input$min_year), year);
+  data.aggr <- aggregate(. ~ year, data=data.with_year, FUN=mean)
+  
+  .e <- environment()
+  
+  ggplot(data.with_year, aes(x = year, y = get(input$value)), environment = .e) +
+    geom_point(binwidth=0.01, alpha = 1/4) +
+    geom_point(data = data.aggr, colour = 'red', size = 6) +
+    xlab("Year") +
+    ylab(input$value)
+})
+```
 
 
 2. Quais são as palavras mais comuns nos títulos das músicas?
