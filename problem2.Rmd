@@ -3,7 +3,6 @@ title: "Visualizações, Problema 1"
 author: "Matheus Sampaio"
 date: "03-11-2014"
 output: html_document
-runtime: shiny 
 ---
 
 
@@ -12,45 +11,45 @@ runtime: shiny
 library(dplyr)
 library(ggplot2)
 
-songs <- read.csv("~/git/analise-dados-2-p2/csv/songs.csv")
+songs <- read.csv("~/git/analise-dados-2-p2/csv/songs.csv");
+artist_term <- read.csv("~/git/analise-dados-2-p2/csv/artist_term.csv");
+
+tmp <- arrange(filter(select(merge(songs, artist_term), term, title), term == "rock" | term == "pop" | term == "jazz" | term == "electronic" | term == "alternative rock"), term);
+tmp$title <- tolower(tmp$title)
+
+write.csv(tmp, file = "~/git/analise-dados-2-p2/csv/term_title.csv");
+
+term_word_count <- arrange(read.csv("~/git/analise-dados-2-p2/csv/term_word_count.csv"), desc(total))
 ```
 
 ## Perguntas
 
-1. As músicas antigas são mais familiares?
+* 1. As músicas antigas são mais familiares? *
 
 ![](img/1.JPG)
 
 ```{r, echo=FALSE}
 
-inputPanel(
-  selectInput("value", 
-              label = "Variavel:", 
-              choices = c("artist_familiarity", "artist_hotttnesss", "duration"),
-              selected = "artist_familiarity"),
-  
-  sliderInput("min_year", label = "Ano mínimo:", min = 1960, max = 2005, value = 2000, step = 1)
-)
+#data <- select(songs, artist_familiarity, artist_hotttnesss, duration, year);
+#data.with_year <- arrange(filter(data, year > 1960), year);
+#data.aggr <- aggregate(. ~ year, data=data.with_year, FUN=mean)
 
-renderPlot({ 
-  data <- select(songs, artist_familiarity, artist_hotttnesss, duration, year);
-  data.with_year <- arrange(filter(data, year > input$min_year), year);
-  data.aggr <- aggregate(. ~ year, data=data.with_year, FUN=mean)
-  
-  .e <- environment()
-  
-  ggplot(data.with_year, aes(x = year, y = get(input$value)), environment = .e) +
-    geom_point(binwidth=0.01, alpha = 1/4) +
-    geom_point(data = data.aggr, colour = 'red', size = 6) +
-    xlab("Year") +
-    ylab(input$value)
-})
+#ggplot(data.with_year, aes(x = year, y = artist_familiarity)) +
+ # geom_point(alpha = 0.3, position = position_jitter(width = .3)) +
+  #geom_point(data = data.aggr, colour = 'red', size = 6) +
+  #xlab("Ano") +
+  #ylab("Familiaridade")
 ```
 
 
 2. Quais são as palavras mais comuns nos títulos das músicas?
 
 ![](img/2.JPG)
+
+
+```{r, echo=FALSE}
+
+```
 
 3. Como o ano influencia na popularidade de um género?
 
