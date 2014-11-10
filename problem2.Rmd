@@ -19,7 +19,7 @@ tmp$title <- tolower(tmp$title)
 
 write.csv(tmp, file = "~/git/analise-dados-2-p2/csv/term_title.csv");
 
-term_word_count <- arrange(read.csv("~/git/analise-dados-2-p2/csv/term_word_count.csv"), desc(total))
+term_word_count <- read.csv("~/git/analise-dados-2-p2/csv/term_word_count.csv")
 ```
 
 ## Perguntas
@@ -30,15 +30,15 @@ term_word_count <- arrange(read.csv("~/git/analise-dados-2-p2/csv/term_word_coun
 
 ```{r, echo=FALSE}
 
-#data <- select(songs, artist_familiarity, artist_hotttnesss, duration, year);
-#data.with_year <- arrange(filter(data, year > 1960), year);
-#data.aggr <- aggregate(. ~ year, data=data.with_year, FUN=mean)
+data <- select(songs, artist_familiarity, artist_hotttnesss, duration, year);
+data.with_year <- arrange(filter(data, year > 1960), year);
+data.aggr <- aggregate(. ~ year, data=data.with_year, FUN=mean)
 
-#ggplot(data.with_year, aes(x = year, y = artist_familiarity)) +
- # geom_point(alpha = 0.3, position = position_jitter(width = .3)) +
-  #geom_point(data = data.aggr, colour = 'red', size = 6) +
-  #xlab("Ano") +
-  #ylab("Familiaridade")
+ggplot(data.with_year, aes(x = year, y = artist_familiarity)) +
+  geom_point(alpha = 0.3, position = position_jitter(width = .3)) +
+  geom_point(data = data.aggr, colour = 'red', size = 6) +
+  xlab("Ano") +
+  ylab("Familiaridade")
 ```
 
 
@@ -48,7 +48,8 @@ term_word_count <- arrange(read.csv("~/git/analise-dados-2-p2/csv/term_word_coun
 
 
 ```{r, echo=FALSE}
-
+term_word_count <- read.csv("~/git/analise-dados-2-p2/csv/term_word_count.csv")
+ggparcoord(data = term_word_count[1:6], columns = 2:6, order = "allClass", groupColumn = 1, mapping = aes(size = 2))
 ```
 
 3. Como o ano influencia na popularidade de um género?

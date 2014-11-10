@@ -22,6 +22,18 @@ def append(dic, term, title):
         elif (term == "pop"):
             dic[word][4] += 1
 
+def writeterm(csv, term, i):
+	
+    csv.write(term)
+    
+    total = 0
+    
+    for word in dic:
+        total += dic[word][i]
+        csv.write(";%d" % dic[word][i])
+    
+    csv.write(";%d\n" % total)
+
 def save(dic):
     csvOutput = open("csv/term_word_count.csv", "w")
 
@@ -29,7 +41,28 @@ def save(dic):
 
     for word in dic:
         csvOutput.write("%s,%d,%d,%d,%d,%d,%d\n" % (word, dic[word][0], dic[word][1], dic[word][2], dic[word][3], dic[word][4], sum(dic[word])))
+    
+    csvOutput2 = open("csv/term_word_count4.csv", "w")
 
+    csvOutput2.write("term");
+    
+    for word in dic:
+        csvOutput2.write(";%s" % word)
+    
+    csvOutput2.write(";total\n")
+    
+    writeterm(csvOutput2, "rock", 0)
+    writeterm(csvOutput2, "jazz",1)
+    writeterm(csvOutput2, "alternative rock", 2)
+    writeterm(csvOutput2, "electronic", 3)
+    writeterm(csvOutput2, "pop", 4) 
+    
+    
+
+    for word in dic:
+        csvOutput.write("%s,%d,%d,%d,%d,%d,%d\n" % (word, dic[word][0], dic[word][1], dic[word][2], dic[word][3], dic[word][4], sum(dic[word])))
+
+    
     csvOutput.close()
 
 def unnacent(word):
@@ -46,11 +79,11 @@ def unnacent(word):
 
     return word
 
-
+dic = {}
+ 
 def main():
     csvInput = open("csv/term_title.csv", "r")
 
-    dic = {}
     i = 0
 
     for line in csvInput.read().replace("\"", "").split("\n"):
